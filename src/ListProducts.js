@@ -11,7 +11,7 @@ const ListProduct = () => {
     const LayDulieutuBackend = async () => {
       try {
         const res = await axios.get(
-          "https://68f9976fef8b2e621e7cc114.mockapi.io/Products"
+          "https://68f97a99ef8b2e621e7c302b.mockapi.io/products"
         );
 
         if (Array.isArray(res.data) && res.data.length > 0) {
