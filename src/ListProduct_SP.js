@@ -35,7 +35,7 @@ const ListProducts_SP = () => {
         {listProduct.map((p) => (
           <div
             key={p.id}
-            onClick={() => navigate(`/sanpham/${p.id}`)}
+            onClick={() => navigate(`/detail/${p.id}`)}
             style={{
               border: "1px solid #ddd",
               borderRadius: "8px",

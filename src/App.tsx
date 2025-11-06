@@ -11,20 +11,52 @@ import Chitietsanpham from "./Chitietsanpham";
 import Trang2 from "./Trang2";
 // @ts-ignore
 import ListProducts from "./ListProducts";
+
 // @ts-ignore
 import ListProduct_SP from "./ListProduct_SP";
+// @ts-ignore
+import ProductDetails from "./ProductDetails";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+//@ts-ignore
+import LoginPage from "./LoginPage";
+//@ts-ignore
+import LogoutPage from "./LogoutPage";
+//@ts-ignore
+import ProtectedRoute from "./ProtectedRoute";
+//@ts-ignore
+import ListProduct_SP_Admin from "./ListProduct_SP_Admin";
 
 const App = () => {
   //return <Layout />;
   return (
     <BrowserRouter>
       <Routes>
+        {/* ✅ Layout chung cho toàn bộ hệ thống */}
         <Route path="/" element={<Layout />}>
+          {/* Trang chính (cho người dùng vãng lai) */}
           <Route index element={<ListProduct_SP />} />
           <Route path="trang1" element={<Trang1 />} />
-          <Route path="sanpham/:id" element={<Chitietsanpham />} />
           <Route path="trang2" element={<Trang2 />} />
+          {/* <Route path="sanpham/:id" element={<Chitietsanpham />} />*/}
+          <Route path="detail/:id" element={<ProductDetails />} />
+
+          {/* ✅ Trang đăng nhập (nằm trong Layout) */}
+          <Route path="login" element={<LoginPage />} />
+
+          {/* ✅ Trang đăng xuất */}
+          <Route path="logout" element={<LogoutPage />} />
+
+          {/* ✅ Trang quản trị (nằm trong Layout, chỉ Admin truy cập) */}
+          <Route
+            path="admin/products"
+            element={
+              <ProtectedRoute>
+                <ListProduct_SP_Admin />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
