@@ -39,7 +39,7 @@ const App = () => {
           <Route index element={<ListProduct_SP />} />
           <Route path="trang1" element={<Trang1 />} />
           <Route path="trang2" element={<Trang2 />} />
-          {/* <Route path="sanpham/:id" element={<Chitietsanpham />} />*/}
+          <Route path="sanpham/:id" element={<Chitietsanpham />} />
           <Route path="detail/:id" element={<ProductDetails />} />
 
           {/* ✅ Trang đăng nhập (nằm trong Layout) */}
