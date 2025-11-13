@@ -27,7 +27,8 @@ import LogoutPage from "./LogoutPage";
 import ProtectedRoute from "./ProtectedRoute";
 //@ts-ignore
 import ListProduct_SP_Admin from "./ListProduct_SP_Admin";
-
+//@ts-ignore
+import EditProduct from "./EditProduct";
 const App = () => {
   //return <Layout />;
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="trang2" element={<Trang2 />} />
           <Route path="sanpham/:id" element={<Chitietsanpham />} />
           <Route path="detail/:id" element={<ProductDetails />} />
+          <Route path="/admin/edit/:id" element={<EditProduct />} />
 
           {/* ✅ Trang đăng nhập (nằm trong Layout) */}
           <Route path="login" element={<LoginPage />} />

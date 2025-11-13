@@ -62,6 +62,7 @@ const Layout = () => {
         <nav className="main-menu">
           <a href="/">Trang chủ</a>
           <a href="/trang1">Sản phẩm</a>
+          <a href="/trang2">Sinh viên</a>
           {user && user.username === "admin" ? (
             <a href="/admin/products">Quản trị</a>
           ) : (
