@@ -21,80 +21,65 @@ const Layout = () => {
   };
 
   return (
-    <html>
-      <header>
-        <link rel="stylesheet" href="assets/css/layout.css" />
-
-        <div id="header" className="header">
-          {/* --- Banner (Logo + Thanh menu trên cùng) --- */}
-          <div id="banner" className="banner">
-            <div id="divmenutrai">
-              <nav id="menutrai">
-                <ul className="menutrai" style={{ width: "250px" }}>
-                  <li>
-                    <a href="/" className="menutrai">
-                      TRANG CHU
-                    </a>
-                  </li>
-                  <li>
-                    <a className="menutrai" href="/trang1">
-                      EGOV
-                    </a>
-                  </li>
-                  <li>
-                    <a className="menutrai" href="/admin/products">
-                      QUAN TRI
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-
-            <div style={{ width: "1000px" }}>
-              <a href="/">
-                <img src={logo} width="500" height="80" alt="logo" />
+    <div className="layout-container">
+      {/* --- Header --- */}
+      <header className="header">
+        <div className="top-bar">
+          <div className="right-menu">
+            {user ? (
+              <>
+                <span className="username">
+                  👤 {user.username}{" "}
+                  {user.username === "admin" && (
+                    <span className="admin-badge">(Admin)</span>
+                  )}
+                </span>
+                <button className="logout-btn" onClick={handleLogout}>
+                  Đăng xuất
+                </button>
+              </>
+            ) : (
+              <a href="/login" className="login-btn">
+                Đăng nhập
               </a>
-            </div>
-          </div>
-
-          {/* --- Thanh menubar phía dưới (đỏ) --- */}
-          <div id="menubar" className="menubar">
-            <div className="menubar-left">
-              <a href="/menu1" className="menu-item">
-                Menu 1
-              </a>
-              <a href="/menu2" className="menu-item">
-                Menu 2
-              </a>
-              <a href="/menu3" className="menu-item">
-                Menu 3
-              </a>
-            </div>
-
-            <div className="menubar-right">
-              {user ? (
-                <>
-                  <span className="username">👤 {user.username}</span>
-                  <button className="logout-btn" onClick={handleLogout}>
-                    Đăng xuất
-                  </button>
-                </>
-              ) : (
-                <a href="/login" className="login-link">
-                  Đăng nhập
-                </a>
-              )}
-            </div>
+            )}
           </div>
         </div>
+
+        {/* --- Logo + Tìm kiếm --- */}
+        <div className="logo-bar">
+          <a href="/">
+            <img src={logo} alt="Logo" className="main-logo" />
+          </a>
+
+          <div className="search-box">
+            <input type="text" placeholder="🔍 Tìm kiếm sản phẩm..." />
+            <button>Tìm</button>
+          </div>
+        </div>
+
+        {/* --- Menu chính --- */}
+        <nav className="main-menu">
+          <a href="/">Trang chủ</a>
+          <a href="/trang1">Sản phẩm</a>
+          {user && user.username === "admin" ? (
+            <a href="/admin/products">Quản trị</a>
+          ) : (
+            <span className="disabled-link">Quản trị</span>
+          )}
+        </nav>
       </header>
 
-      <body>
+      {/* --- Nội dung chính --- */}
+      <main className="main-content">
         <Outlet />
-      </body>
+      </main>
 
-      <footer></footer>
-    </html>
+      {/* --- Footer --- */}
+      <footer className="footer">
+        <p>© 2025 HCE - Website bán hàng demo. All rights reserved.</p>
+      </footer>
+    </div>
   );
 };
 

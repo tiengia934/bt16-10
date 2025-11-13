@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import anhlogo1 from "./assets/images/keylogin.png";
 import "./assets/css/login.css";
+import { supabase } from "./supabaseClient";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -9,23 +10,51 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  // 👉 Hàm băm SHA-256
+  const hashPassword = async (password) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      if (username.trim() && password.trim()) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ username, role: "user" })
-        );
+    try {
+      // 1️⃣ Băm mật khẩu nhập vào
+      const hashedPassword = await hashPassword(password);
+
+      // 2️⃣ Lấy user theo username
+      const { data, error } = await supabase
+        .from("tbl_user")
+        .select("*")
+        .eq("username", username)
+        .single();
+
+      // 3️⃣ Kiểm tra lỗi hoặc không có user
+      if (error || !data) {
+        alert("❌ Sai tài khoản hoặc mật khẩu!");
+        setLoading(false);
+        return;
+      }
+
+      // 4️⃣ So sánh hash
+      if (data.password_hash === hashedPassword) {
+        localStorage.setItem("user", JSON.stringify(data));
         alert("✅ Đăng nhập thành công!");
         navigate("/");
       } else {
-        alert("❌ Vui lòng nhập đầy đủ thông tin!");
+        alert("❌ Sai tài khoản hoặc mật khẩu!");
       }
-      setLoading(false);
-    }, 1000);
+    } catch (err) {
+      console.error(err);
+      alert("❌ Lỗi khi kết nối Supabase!");
+    }
+
+    setLoading(false);
   };
 
   return (
